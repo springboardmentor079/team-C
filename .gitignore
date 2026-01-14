@@ -1,0 +1,11 @@
+# Node.js backend
+Backend/node_modules/
+Backend/package-lock.json
+
+# React frontend
+Frontend/demo-frontend/node_modules/
+Frontend/demo-frontend/build/
+
+# Optional: system files
+.DS_Store
+Thumbs.db
