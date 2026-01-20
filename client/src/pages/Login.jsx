@@ -1,90 +1,87 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import { Eye, EyeOff } from "lucide-react"; 
 
-const Login = ({ onNavigate, setEmailProp }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const handleForgotPassword = async () => {
-    if (!email) return alert("Please enter your email first!");
-
-    try {
-      const res = await fetch('http://localhost:5000/forgot-password', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email.trim() }) // Trim panni anupuroam
-      });
-
-      const data = await res.json();
-
-      if (data.status === 'ok') {
-        alert("OTP Sent Successfully! Check your email.");
-        setEmailProp(email); // Inga thaan email-ah save pannitu adutha page-ku porom
-        onNavigate('reset-password');
-      } else {
-        // Inga thaan "User Not Found" alert catch aagum
-        alert(data.message || "Something went wrong!");
-      }
-    } catch (err) {
-      alert("Server error. Please try again later.");
-    }
-  };
+const Login = ({ onNavigate }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false); 
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
-      const res = await fetch('http://localhost:5000/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
+      const res = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
       });
       const data = await res.json();
-      data.status === 'ok' ? onNavigate('dashboard') : alert("Invalid Email or Password");
+      if (data.status === "ok") {
+        onNavigate("dashboard");
+      } else {
+        alert(data.message || "Invalid credentials");
+      }
     } catch (err) {
-      alert("Server error during login.");
-    }
+      alert("Server error.");
+    } finally { setLoading(false); }
   };
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', background: '#F9F7F2' }}>
-      <div style={{ flex: 1, background: '#082435' }}></div>
-      <div style={{ flex: 1.2, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ width: '380px', textAlign: 'center' }}>
-          <h2>Welcome back to CIVIX</h2>
-          <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+    <>
+      <div className="brand">
+        <div className="brand-header">
+          <div className="logo-circle">C</div>
+          <h1>CivixConnect</h1>
+        </div>
+        <p>Your Voice. Your City. Your Power.</p>
+      </div>
+      <div className="auth-card">
+        <h2>Welcome Back</h2>
+        <p className="auth-desc">Sign in to access your account</p>
+        <form onSubmit={handleLogin}>
+          <label>Email Address</label>
+          <input type="email" placeholder="you@example.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          
+          <label>Password</label>
+          <div style={{ position: "relative" }}>
             <input 
-              style={styles.input} 
-              type="email"
-              placeholder="Email" 
-              onChange={(e) => setEmail(e.target.value)} 
-              required 
-            />
-            <input 
-              style={styles.input} 
-              type="password" 
-              placeholder="Password" 
+              type={showPassword ? "text" : "password"} 
+              placeholder="Enter your password" 
+              value={password} 
               onChange={(e) => setPassword(e.target.value)} 
               required 
+              style={{ paddingRight: "45px" }}
             />
-            <button type="submit" style={styles.btn}>Sign In</button>
-            <p 
-              onClick={handleForgotPassword} 
-              style={{ color: '#1e3a8a', cursor: 'pointer', textDecoration: 'underline', fontSize: '13px', marginTop: '10px' }}
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              style={{
+                position: "absolute",
+                right: "12px",
+                top: "12px",
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                color: "#94a3b8",
+                display: "flex",
+                alignItems: "center"
+              }}
             >
-              Forgot Password?
-            </p>
-          </form>
-          <p style={{ marginTop: '20px' }}>
-            No account? <span onClick={() => onNavigate('register')} style={{ fontWeight: 'bold', cursor: 'pointer', color: '#082435' }}>Register now</span>
-          </p>
+              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+            </button>
+          </div>
+
+          <button type="submit" className="primary-btn" disabled={loading}>
+            {loading ? "Logging in..." : "Sign In"}
+          </button>
+        </form>
+        <div className="link-btn" onClick={() => onNavigate("forgot")}>Forgot Password?</div>
+        <div className="link-btn" style={{ marginTop: "10px" }} onClick={() => onNavigate("register")}>
+          Don't have an account? <strong>Register now</strong>
         </div>
       </div>
-    </div>
+    </>
   );
 };
-
-const styles = {
-  input: { padding: '14px', borderRadius: '12px', border: '1px solid #ddd', outline: 'none' },
-  btn: { padding: '16px', background: '#082435', color: '#FFF', borderRadius: '12px', cursor: 'pointer', fontWeight: 'bold' }
-};
-
 export default Login;

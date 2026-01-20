@@ -1,5 +1,15 @@
 {
   "dependencies": {
-    "nodemailer": "^7.0.12"
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@hookform/resolvers": "^5.2.2",
+    "@mui/icons-material": "^7.3.7",
+    "@mui/material": "^7.3.7",
+    "axios": "^1.13.2",
+    "nodemailer": "^7.0.12",
+    "react-hook-form": "^7.70.0",
+    "react-router-dom": "^7.12.0",
+    "react-toastify": "^11.0.5",
+    "yup": "^1.7.1"
   }
 }
