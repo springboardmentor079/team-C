@@ -1,70 +1,129 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import VerificationCode from "./VerificationCode";
+import '../styles/ForgotPassword.css';
 
-export default function ForgotPassword({ setPage, setEmailProp }) {
+export default function ForgotPassword({ onClose, onLogin }) {
   const [email, setEmail] = useState("");
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState("email");
+  const [emailProp, setEmailProp] = useState("");
 
   const handleSendOTP = async () => {
-    if (!email) return alert("Please enter your email");
+    if (!email.trim()) return alert("Please enter your email");
     
-    setLoading(true); 
+    const cleanEmail = email.trim();
+    console.log("🔍 Sending OTP to:", cleanEmail);
+    
+    setLoading(true);
     try {
       const res = await fetch("http://localhost:5000/api/auth/forgot-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email: cleanEmail }),
       });
       const data = await res.json();
       
-      if (data.status === "ok") {
-        alert(`OTP sent to ${email}`);
-        setEmailProp(email);
+      if (data.status === "success") {
+        alert(`OTP sent to ${cleanEmail}`);
+        setEmailProp(cleanEmail);
         setPage("verify");
       } else {
-        alert(data.message);
+        alert(data.message || "Email not found");
       }
-    } catch {
-      alert("Server error");
+    } catch (error) {
+      alert("Server error. Check console.");
+      console.error(error);
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
-  return (
-    <>
-      <div className="brand">
-        <div className="brand-header">
-          <div className="logo-circle">C</div>
-          <h1>CivixConnect</h1>
-        </div>
-        <p>Your Voice. Your City. Your Power.</p>
-      </div>
+  // Render VerificationCode if page is 'verify'
+  if (page === "verify") {
+    return (
+      <VerificationCode 
+        email={emailProp} 
+        onBack={() => setPage("email")} 
+        onLogin={onLogin} 
+      />
+    );
+  }
 
-      <div className="auth-card">
-        <h2>Forgot Password</h2>
-        <p className="auth-desc">Enter your email to receive a verification code</p>
-        
-        <label>Email Address</label>
-        <input 
-          type="email"
-          placeholder="you@example.com" 
-          value={email} 
-          onChange={(e) => setEmail(e.target.value)} 
-          required
-        />
-        
+  return (
+    <div className="forgot-password-modal">
+      <div className="modal-content">
+        {/* Decorative Background */}
+        <div className="top-gradient"></div>
+        <div className="bg-circle-1"></div>
+        <div className="bg-circle-2"></div>
+
+        {/* Close Button */}
         <button 
-          className="primary-btn" 
-          onClick={handleSendOTP} 
-          disabled={loading}
+          onClick={onClose}
+          className="close-btn"
         >
-          {loading ? "Sending Code..." : "Send Verification Code"}
+          ✕
         </button>
-        
-        <div className="link-btn" onClick={() => setPage("login")}>
-          Back to login
+
+        {/* Content */}
+        <div className="modal-inner">
+          {/* Icon */}
+          <div className="icon-container">
+            ✉️
+          </div>
+
+          {/* Title */}
+          <h2 className="modal-title">Forgot Password?</h2>
+          <p className="modal-subtitle">
+            Enter your email address and we'll send you a secure OTP to reset your password.
+          </p>
+
+          {/* Form */}
+          <div className="form-container">
+            <div className="email-input-wrapper">
+              <span className="email-icon">✉️</span>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="email-input"
+                placeholder="Enter your email address"
+              />
+            </div>
+
+            <button
+              onClick={handleSendOTP}
+              disabled={loading || !email.trim()}
+              className={`send-btn ${loading || !email.trim() ? "send-btn-disabled" : ""}`}
+            >
+              {loading ? (
+                <>
+                  <span className="spinner"></span>
+                  Sending...
+                </>
+              ) : (
+                <>
+                  📧 Send Recovery Code
+                </>
+              )}
+            </button>
+
+            <div className="back-btn-container">
+              <button
+                onClick={onClose}
+                className="back-to-login-btn"
+              >
+                ← Back to Login
+              </button>
+            </div>
+          </div>
+
+          {/* Bottom Decorative Text */}
+          <p className="secure-text">
+            Secure recovery powered by CivixConnect
+          </p>
         </div>
       </div>
-    </>
+    </div>
   );
 }

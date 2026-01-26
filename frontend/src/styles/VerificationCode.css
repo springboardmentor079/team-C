@@ -1,0 +1,378 @@
+/* ========================================
+   VERIFICATION CODE (OTP) - Civix Auth Style + Neon Blue
+   ======================================== */
+
+.verification-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: linear-gradient(135deg,
+    #1e3a8a 0%,
+    #1e40af 25%,
+    #3b82f6 50%,
+    #60a5fa 75%,
+    #93c5fd 100%);
+  position: relative;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.verification-page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 25%, rgba(255,255,255,0.10) 0%, transparent 55%),
+    radial-gradient(circle at 85% 80%, rgba(255,255,255,0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* Geometric Background */
+.geo-pattern {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(45deg, rgba(255,255,255,0.05) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(255,255,255,0.05) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, rgba(255,255,255,0.05) 75%),
+    linear-gradient(-45deg, transparent 75%, rgba(255,255,255,0.05) 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+  opacity: 0.38;
+  pointer-events: none;
+}
+
+/* Floating Numbers */
+.floating-digits {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  font-size: 48px;
+  font-weight: 900;
+  color: rgba(255,255,255,0.03);
+  animation: digitFloat 20s linear infinite;
+}
+
+@keyframes digitFloat {
+  0% { transform: translateY(100vh) rotate(0deg); }
+  100% { transform: translateY(-100vh) rotate(360deg); }
+}
+
+/* ========================================
+   CONTAINER
+   ======================================== */
+.verification-container {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 460px; /* slightly wider for 6-digit OTP */
+}
+
+/* Header Section (PDF-like auth heading) */
+.header-section {
+  text-align: center;
+  margin-bottom: 22px;
+}
+
+.verification-icon {
+  width: 72px;
+  height: 72px;
+  background: linear-gradient(135deg, #3b82f6, #60a5fa, #93c5fd);
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  box-shadow: 0 18px 38px rgba(59, 130, 246, 0.28);
+  border: 3px solid rgba(255, 255, 255, 0.35);
+  font-size: 28px;
+}
+
+.page-title {
+  font-size: 26px;
+  font-weight: 900;
+  color: rgba(255,255,255,0.98);
+  margin: 0 0 8px 0;
+  letter-spacing: -0.01em;
+}
+
+.page-subtitle {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.88);
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Timer + resend (common OTP behavior) */
+.timer-display {
+  margin-top: 14px;
+  font-size: 14px;
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255,255,255,0.18);
+  padding: 8px 16px;
+  border-radius: 9999px;
+  backdrop-filter: blur(10px);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.resend-text {
+  margin-top: 10px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.72);
+  font-weight: 700;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.resend-text:hover {
+  color: rgba(255, 255, 255, 0.95);
+  text-decoration: underline;
+}
+
+/* ========================================
+   CARD (Civix auth-card structure)
+   ======================================== */
+.verification-card {
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  border-radius: 22px;
+  padding: 28px 24px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.22);
+  position: relative;
+  overflow: hidden;
+}
+
+.verification-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #60a5fa, #3b82f6, #93c5fd);
+}
+
+/* OTP container */
+.otp-container {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin: 18px 0 10px;
+  flex-wrap: wrap;
+}
+
+/* Better default for 6 digits, still ok for 4 digits */
+.otp-input {
+  width: 56px;
+  height: 62px;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 16px;
+  font-size: 24px;
+  font-weight: 900;
+  color: white;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.otp-input:focus {
+  outline: none;
+  border-color: rgba(96, 165, 250, 0.95);
+  box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.22);
+  background: rgba(255, 255, 255, 0.20);
+  transform: translateY(-1px);
+}
+
+.otp-input:hover {
+  border-color: rgba(255, 255, 255, 0.45);
+}
+
+.otp-input:disabled {
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.55);
+  cursor: not-allowed;
+}
+
+/* hide number spinners */
+.otp-input::-webkit-outer-spin-button,
+.otp-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Labels under inputs (optional) */
+.input-labels {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin: 6px 0 14px;
+  flex-wrap: wrap;
+}
+
+.input-label {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.65);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
+/* ========================================
+   Progress circle (optional visual)
+   ======================================== */
+.progress-circle {
+  width: 76px;
+  height: 76px;
+  margin: 6px auto 10px;
+  position: relative;
+}
+
+.circle-bg {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255,255,255,0.16);
+}
+
+.circle-progress {
+  position: absolute;
+  inset: 6px;
+  border-radius: 50%;
+  background: conic-gradient(#60a5fa 0deg, rgba(96, 165, 250, 0.25) 0deg);
+  transition: all 0.5s ease;
+}
+
+.circle-inner {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+/* ========================================
+   ACTION BUTTONS
+   ======================================== */
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.btn-primary {
+  width: 100%;
+  height: 56px;
+  background: linear-gradient(135deg, #3b82f6, #60a5fa);
+  color: white;
+  border: none;
+  border-radius: 16px;
+  font-weight: 900;
+  font-size: 15px;
+  cursor: pointer;
+  box-shadow: 0 16px 32px rgba(59, 130, 246, 0.28);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 40px rgba(59, 130, 246, 0.36);
+}
+
+.btn-secondary {
+  width: 100%;
+  height: 52px;
+  background: rgba(255, 255, 255, 0.14);
+  color: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 16px;
+  font-weight: 900;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.20);
+  transform: translateY(-1px);
+}
+
+.btn-disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Help text */
+.help-text {
+  text-align: center;
+  margin-top: 14px;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.resend-link {
+  color: rgba(191, 219, 254, 1);
+  font-weight: 900;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.resend-link:hover {
+  text-decoration: underline;
+  color: rgba(255, 255, 255, 0.96);
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+@media (max-width: 480px) {
+  .verification-page { padding: 16px; }
+
+  .verification-container { max-width: 380px; }
+
+  .verification-card {
+    padding: 22px 18px;
+    border-radius: 20px;
+  }
+
+  .otp-container { gap: 10px; }
+  .otp-input { width: 52px; height: 60px; font-size: 22px; }
+
+  .page-title { font-size: 22px; }
+}
+
+@media (max-width: 360px) {
+  .verification-container { max-width: 330px; }
+  .otp-input { width: 48px; }
+}

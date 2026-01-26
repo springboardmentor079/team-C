@@ -1,0 +1,593 @@
+/* ========================================
+   GLOBAL STYLES - CIVIX SYSTEM
+   ======================================== */
+
+/* CSS Reset & Base */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+body, html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, 
+               Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  height: 100%;
+  width: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
+  color: #1f2937;
+  background: #f9fafb;
+}
+
+/* Civix Color Palette (PDF Reference) */
+:root {
+  /* Primary */
+  --civix-blue: 59 130 246;
+  --civix-purple: 147 51 234;
+  --civix-green: 16 185 129;
+  --civix-orange: 245 158 11;
+  --civix-red: 239 68 68;
+  
+  /* Neutrals */
+  --gray-50: 249 250 251;
+  --gray-100: 243 244 246;
+  --gray-200: 229 231 235;
+  --gray-300: 209 213 219;
+  --gray-400: 156 163 175;
+  --gray-500: 107 114 128;
+  --gray-600: 75 85 99;
+  --gray-700: 55 65 81;
+  --gray-800: 31 41 55;
+  --gray-900: 17 24 39;
+  
+  /* Status Colors (Petition Statuses) */
+  --status-active: 16 185 129;
+  --status-review: 245 158 11;
+  --status-closed: 107 114 128;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+}
+
+/* Animations */
+@keyframes float-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -468px 0; }
+  100% { background-position: 468px 0; }
+}
+
+.animate-float-in { animation: float-in 0.5s ease-out forwards; }
+.fade-in { animation: fadeIn 0.3s ease-in forwards; }
+.pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+
+/* ========================================
+   UTILITY CLASSES - CIVIX SYSTEM
+   ======================================== */
+.hidden { display: none !important; }
+.sr-only { 
+  position: absolute; 
+  width: 1px; 
+  height: 1px; 
+  padding: 0; 
+  margin: -1px; 
+  overflow: hidden; 
+  clip: rect(0, 0, 0, 0); 
+  white-space: nowrap; 
+  border: 0; 
+}
+
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.items-center { align-items: center; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.justify-end { justify-content: flex-end; }
+.items-start { align-items: flex-start; }
+.gap-2 { gap: 8px; }
+.gap-4 { gap: 16px; }
+.gap-6 { gap: 24px; }
+.gap-8 { gap: 32px; }
+
+.grid { display: grid; }
+.grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+.text-center { text-align: center; }
+.w-full { width: 100%; }
+.h-full { height: 100%; }
+.min-h-screen { min-height: 100vh; }
+
+/* Typography */
+h1 { 
+  font-size: clamp(28px, 5vw, 42px); 
+  font-weight: 800; 
+  line-height: 1.2; 
+  letter-spacing: -0.025em; 
+}
+h2 { 
+  font-size: clamp(22px, 4vw, 32px); 
+  font-weight: 700; 
+  line-height: 1.3; 
+}
+h3 { 
+  font-size: clamp(18px, 3.5vw, 26px); 
+  font-weight: 700; 
+  line-height: 1.4; 
+}
+
+.text-xs { font-size: 12px; line-height: 1.4; }
+.text-sm { font-size: 14px; line-height: 1.5; }
+.text-base { font-size: 16px; line-height: 1.6; }
+.text-lg { font-size: 18px; line-height: 1.6; }
+.font-bold { font-weight: 700; }
+.font-semibold { font-weight: 600; }
+.font-medium { font-weight: 500; }
+
+/* Spacing */
+.p-1 { padding: 4px; }
+.p-2 { padding: 8px; }
+.p-4 { padding: 16px; }
+.p-6 { padding: 24px; }
+.p-8 { padding: 32px; }
+.px-2 { padding-left: 8px; padding-right: 8px; }
+.px-4 { padding-left: 16px; padding-right: 16px; }
+.px-6 { padding-left: 24px; padding-right: 24px; }
+.py-2 { padding-top: 8px; padding-bottom: 8px; }
+.py-4 { padding-top: 16px; padding-bottom: 16px; }
+.m-2 { margin: 8px; }
+.m-4 { margin: 16px; }
+.mt-2 { margin-top: 8px; }
+.mt-4 { margin-top: 16px; }
+.mt-6 { margin-top: 24px; }
+.mt-8 { margin-top: 32px; }
+.mb-2 { margin-bottom: 8px; }
+.mb-4 { margin-bottom: 16px; }
+.mb-6 { margin-bottom: 24px; }
+.mb-8 { margin-bottom: 32px; }
+.mx-auto { margin-left: auto; margin-right: auto; }
+
+/* Colors - Civix Palette */
+.bg-white { background: rgb(255 255 255); }
+.bg-gray-50 { background: rgb(var(--gray-50)); }
+.bg-gray-100 { background: rgb(var(--gray-100)); }
+.bg-blue-50 { background: rgb(239 246 255); }
+.bg-purple-50 { background: rgb(245 243 255); }
+.bg-green-50 { background: rgb(240 253 244); }
+.bg-orange-50 { background: rgb(255 247 237); }
+.bg-red-50 { background: rgb(254 242 242); }
+
+.text-gray-900 { color: rgb(var(--gray-900)); }
+.text-gray-700 { color: rgb(var(--gray-700)); }
+.text-gray-600 { color: rgb(var(--gray-600)); }
+.text-gray-500 { color: rgb(var(--gray-500)); }
+.text-blue-600 { color: rgb(var(--civix-blue)); }
+.text-purple-600 { color: rgb(var(--civix-purple)); }
+.text-green-600 { color: rgb(var(--civix-green)); }
+.text-orange-600 { color: rgb(var(--civix-orange)); }
+.text-red-600 { color: rgb(var(--civix-red)); }
+
+/* Shadows */
+.shadow-sm { box-shadow: var(--shadow-sm); }
+.shadow-md { box-shadow: var(--shadow-md); }
+.shadow-lg { box-shadow: var(--shadow-lg); }
+.shadow-xl { box-shadow: var(--shadow-xl); }
+
+/* Borders & Radius */
+.border { border: 1px solid rgb(var(--gray-200)); }
+.border-gray-200 { border-color: rgb(var(--gray-200)); }
+.border-blue-200 { border-color: rgb(191 219 254); }
+.border-radius-sm { border-radius: 8px; }
+.border-radius-md { border-radius: 12px; }
+.border-radius-lg { border-radius: 16px; }
+.border-radius-xl { border-radius: 24px; }
+
+/* ========================================
+   BUTTONS - Civix System
+   ======================================== */
+.btn {
+  padding: 14px 28px;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 15px;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 0.6s;
+}
+
+.btn:hover::before {
+  left: 100%;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, rgb(var(--civix-blue)), rgb(29 78 216));
+  color: white;
+  box-shadow: 0 6px 16px rgb(var(--civix-blue) / 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgb(var(--civix-blue) / 0.4);
+}
+
+.btn-secondary {
+  background: rgb(var(--gray-50));
+  color: rgb(var(--gray-700));
+  border: 1px solid rgb(var(--gray-200));
+}
+
+.btn-secondary:hover {
+  background: rgb(var(--gray-100));
+  border-color: rgb(var(--gray-300));
+}
+
+.btn-success {
+  background: linear-gradient(135deg, rgb(var(--civix-green)), rgb(5 150 105));
+  color: white;
+  box-shadow: 0 6px 16px rgb(var(--civix-green) / 0.3);
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, rgb(var(--civix-red)), rgb(220 38 38));
+  color: white;
+  box-shadow: 0 6px 16px rgb(var(--civix-red) / 0.3);
+}
+
+.btn-sm {
+  padding: 10px 20px;
+  font-size: 14px;
+}
+
+.btn-lg {
+  padding: 18px 36px;
+  font-size: 16px;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+/* ========================================
+   CARDS - Civix Design System
+   ======================================== */
+.card {
+  background: rgb(255 255 255);
+  border-radius: 20px;
+  border: 1px solid rgb(var(--gray-100));
+  box-shadow: var(--shadow-md);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-xl);
+  transform: translateY(-4px);
+  border-color: rgb(var(--gray-200));
+}
+
+.card-header {
+  padding: 24px 28px 20px;
+  border-bottom: 1px solid rgb(var(--gray-100));
+}
+
+.card-body {
+  padding: 28px;
+}
+
+.card-footer {
+  padding: 20px 28px 28px;
+  border-top: 1px solid rgb(var(--gray-100));
+}
+
+/* ========================================
+   FORMS - Civix Auth/Petitions
+   ======================================== */
+.form-input,
+.form-textarea,
+.form-select {
+  width: 100%;
+  padding: 16px 20px;
+  border: 2px solid rgb(var(--gray-200));
+  border-radius: 16px;
+  font-size: 16px;
+  background: rgb(var(--gray-50));
+  color: rgb(var(--gray-900));
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: inherit;
+}
+
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+  outline: none;
+  border-color: rgb(var(--civix-blue));
+  background: white;
+  box-shadow: 0 0 0 4px rgb(var(--civix-blue) / 0.1);
+  transform: translateY(-1px);
+}
+
+.form-input::placeholder {
+  color: rgb(var(--gray-400));
+}
+
+.form-label {
+  font-size: 15px;
+  font-weight: 600;
+  color: rgb(var(--gray-700));
+  margin-bottom: 12px;
+  display: block;
+}
+
+.form-group {
+  margin-bottom: 24px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+@media (min-width: 768px) {
+  .form-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Form States */
+.form-input.error,
+.form-textarea.error,
+.form-select.error {
+  border-color: rgb(var(--civix-red));
+  background: rgb(254 242 242);
+  box-shadow: 0 0 0 4px rgb(var(--civix-red) / 0.1);
+}
+
+.form-input.success,
+.form-textarea.success,
+.form-select.success {
+  border-color: rgb(var(--civix-green));
+  background: rgb(240 253 244);
+}
+
+/* ========================================
+   STATUS BADGES - Petition Statuses (PDF)
+   ======================================== */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.status-active {
+  background: rgb(var(--civix-green) / 0.15);
+  color: rgb(var(--civix-green));
+}
+
+.status-review {
+  background: rgb(var(--civix-orange) / 0.15);
+  color: rgb(var(--civix-orange));
+}
+
+.status-closed {
+  background: rgb(var(--gray-100));
+  color: rgb(var(--gray-500));
+}
+
+/* ========================================
+   GEO TAGS - Location Badges (PDF)
+   ======================================== */
+.geo-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgb(var(--gray-50));
+  color: rgb(var(--gray-700));
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  border: 1px solid rgb(var(--gray-200));
+}
+
+/* ========================================
+   LOADING & SKELETONS
+   ======================================== */
+.loading {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.spinner-sm {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgb(var(--gray-200));
+  border-top: 2px solid rgb(var(--civix-blue));
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.skeleton {
+  background: linear-gradient(90deg, rgb(var(--gray-100)) 25%, rgb(var(--gray-200)) 50%, rgb(var(--gray-100)) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+
+/* ========================================
+   LAYOUT
+   ======================================== */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.page-container {
+  min-height: 100vh;
+  padding: 24px 0;
+}
+
+/* Sidebar Layout */
+.layout-sidebar {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar-main {
+  width: 280px;
+  flex-shrink: 0;
+}
+
+.main-content {
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Grid Systems */
+.grid {
+  display: grid;
+  gap: 24px;
+}
+
+.grid-cols-1 { grid-template-columns: repeat(1, 1fr); }
+.grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+@media (max-width: 1024px) {
+  .grid-cols-3,
+  .grid-cols-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .grid-cols-2,
+  .grid-cols-3,
+  .grid-cols-4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Glass Effect */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* ========================================
+   SCROLLBAR
+   ======================================== */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgb(var(--gray-100));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(var(--gray-400));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--gray-500));
+}
+
+/* ========================================
+   RESPONSIVE TEXT & PRINT
+   ======================================== */
+@media (max-width: 640px) {
+  h1 { font-size: 26px; }
+  h2 { font-size: 22px; }
+  h3 { font-size: 20px; }
+}
+
+@media print {
+  .no-print { display: none !important; }
+  .btn { 
+    background: none !important; 
+    border: 1px solid black !important; 
+    color: black !important; 
+  }
+}
+
+/* Selection */
+::selection {
+  background: rgb(var(--civix-blue));
+  color: white;
+}
+
+::-moz-selection {
+  background: rgb(var(--civix-blue));
+  color: white;
+}
+
+/* Focus Visible */
+*:focus-visible {
+  outline: 2px solid rgb(var(--civix-blue));
+  outline-offset: 2px;
+}

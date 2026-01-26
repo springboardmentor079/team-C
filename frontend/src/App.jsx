@@ -5,10 +5,18 @@ import ForgotPassword from "./pages/ForgotPassword";
 import VerificationCode from "./pages/VerificationCode";
 import SetNewPassword from "./pages/SetNewPassword";
 import DashboardPage from "./pages/DashboardPage";
-
+import PetitionsPage from "./pages/PetitionsPage";
+import CreatePetitionPage from "./pages/CreatePetitionPage";
+import PollsPage from "./pages/PollsPage";
+import CreatePollPage from "./pages/CreatePollPage";
+import OfficialsPage from "./pages/OfficialsPage";
+import ReportsPage from "./pages/ReportsPage";
+import CreateReportPage from "./pages/CreateReportPage";
+import './styles/CivixGlobalFixes.css';
 function App() {
   const [page, setPage] = useState("login");
   const [email, setEmail] = useState("");
+  const [otp, setOtp] = useState(""); // ✅ ADDED: State to store verified OTP
   const [tempData, setTempData] = useState(null);
 
   return (
@@ -46,15 +54,76 @@ function App() {
           setPage={setPage} 
           emailProp={email} 
           backPage="forgot" 
+          setOtpProp={setOtp} // ✅ PASS SETTER: To save verified OTP
         />
       )}
 
       {page === "reset" && (
-        <SetNewPassword setPage={setPage} emailProp={email} isRegistration={false} />
+        <SetNewPassword 
+          setPage={setPage} 
+          emailProp={email} 
+          isRegistration={false} 
+          otpProp={otp} // ✅ PASS VALUE: To send OTP with new password
+        />
       )}
 
+      {/* DASHBOARD */}
       {page === "dashboard" && (
         <DashboardPage onNavigate={setPage} onLogout={() => setPage("login")} />
+      )}
+
+      {/* PETITIONS */}
+      {page === "petitions" && (
+        <PetitionsPage 
+          onNavigate={setPage} 
+          onLogout={() => setPage("login")} 
+        />
+      )}
+
+      {page === "create-petition" && (
+        <CreatePetitionPage 
+          onNavigate={setPage} 
+          onLogout={() => setPage("login")} 
+        />
+      )}
+
+      {/* POLLS */}
+      {page === "polls" && (
+        <PollsPage 
+          onNavigate={setPage} 
+          onLogout={() => setPage("login")} 
+        />
+      )}
+
+      {page === "create-poll" && (
+        <CreatePollPage 
+          onNavigate={setPage} 
+          onLogout={() => setPage("login")} 
+        />
+      )}
+
+      {/* OFFICIALS */}
+      {page === "officials" && (
+        <OfficialsPage 
+          onNavigate={setPage} 
+          onLogout={() => setPage("login")} 
+        />
+      )}
+
+      {/* REPORTS */}
+      {page === "reports" && (
+        <ReportsPage 
+          onNavigate={setPage} 
+          onLogout={() => setPage("login")} 
+        />
+      )}
+
+      {/* CREATE REPORT PAGE */}
+      {page === "create-report" && (
+        <CreateReportPage 
+          onNavigate={setPage} 
+          onLogout={() => setPage("login")} 
+        />
       )}
     </div>
   );
